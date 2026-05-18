@@ -1,7 +1,7 @@
 export type RouteId = 'basic' | 'multi' | 'lifecycle' | 'comments' | 'modal'
 
 const ROUTE_PATHS: Record<RouteId, string> = {
-  basic: '/basic',
+  basic: '/',
   multi: '/multi-editors',
   lifecycle: '/lifecycle',
   comments: '/comments',
@@ -12,8 +12,11 @@ const PATH_TO_ROUTE = new Map(
   Object.entries(ROUTE_PATHS).map(([id, path]) => [path, id as RouteId]),
 )
 
-export function parseRoute(hash: string): RouteId {
-  const path = hash.replace(/^#/, '') || '/basic'
+// Legacy /basic path (redirected to / in App.svelte)
+PATH_TO_ROUTE.set('/basic', 'basic')
+
+export function parseRoute(pathname: string): RouteId {
+  const path = pathname.replace(/\/+$/, '') || '/'
   return PATH_TO_ROUTE.get(path) ?? 'basic'
 }
 

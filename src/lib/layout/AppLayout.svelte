@@ -29,7 +29,7 @@
         {#each NAV_ITEMS as item (item.id)}
           <li>
             <NavLink
-              href="#{routePath(item.id)}"
+              href={routePath(item.id)}
               route={item.id}
               label={item.label}
               active={route === item.id}

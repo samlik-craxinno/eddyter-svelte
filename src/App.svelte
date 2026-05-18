@@ -8,27 +8,45 @@
   import CommentsFeed from './pages/CommentsFeed.svelte'
   import ModalEditor from './pages/ModalEditor.svelte'
 
-  let route = $state<RouteId>(parseRoute(window.location.hash))
+  function readRoute(): RouteId {
+    return parseRoute(window.location.pathname)
+  }
 
-  function navigate(next: RouteId) {
+  let route = $state<RouteId>(readRoute())
+
+  function navigate(next: RouteId, replace = false) {
     const path = routePath(next)
-    if (window.location.hash !== `#${path}`) {
-      window.location.hash = path
+    if (window.location.pathname !== path) {
+      if (replace) {
+        history.replaceState(null, '', path)
+      } else {
+        history.pushState(null, '', path)
+      }
     }
     route = next
   }
 
   onMount(() => {
-    if (!window.location.hash || window.location.hash === '#') {
-      navigate('basic')
+    // Redirect legacy hash URLs and /basic to clean paths
+    if (window.location.hash.startsWith('#/')) {
+      const legacyPath = window.location.hash.slice(1)
+      const next = parseRoute(legacyPath === '/basic' ? '/' : legacyPath)
+      navigate(next, true)
+      return
     }
 
-    const onHashChange = () => {
-      route = parseRoute(window.location.hash)
+    if (window.location.pathname === '/basic') {
+      navigate('basic', true)
+    } else {
+      route = readRoute()
     }
 
-    window.addEventListener('hashchange', onHashChange)
-    return () => window.removeEventListener('hashchange', onHashChange)
+    const onPopState = () => {
+      route = readRoute()
+    }
+
+    window.addEventListener('popstate', onPopState)
+    return () => window.removeEventListener('popstate', onPopState)
   })
 </script>
 

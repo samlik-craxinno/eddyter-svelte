@@ -20,6 +20,6 @@
     "vite": "^8.0.12"
   },
   "dependencies": {
-    "richtext-core-svelte": "^1.1.0"
+    "richtext-core-svelte": "^1.2.0"
   }
 }

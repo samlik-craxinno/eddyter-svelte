@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte'
-  import { Eddyter } from 'richtext-core-svelte'
+  import { Eddyter } from '@eddyter/svelte'
   import { EDDYTER_API_KEY } from '../../lib/config'
   import {
     createLifecycleHandlers,

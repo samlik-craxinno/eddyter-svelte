@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Eddyter } from 'richtext-core-svelte'
+  import { Eddyter } from '@eddyter/svelte'
   import { EDDYTER_API_KEY } from '../../lib/config'
   import { createLifecycleHandlers } from '../../lib/lifecycle/createLifecycleHandlers'
 
